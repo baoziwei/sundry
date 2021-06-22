@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    // 1.------------冒泡排序   最好情况：O(n)   最坏：O(n^2)
+    function swap(arr,i,j) { 
+       let temp = arr[i];
+       arr[i] = arr[j]
+       arr[j] = temp;
+       return arr;
+    }
+
+    Array.prototype.bubble = function bubble() {  
+        let _this = this,
+             flag = false;
+        // 控制多少轮
+        for(let i = 0; i < _this.length - 1; i++){
+            // 控制好每轮循环多少次
+            for(let j = 0; j < _this.length - 1 - i;j++){
+                // 交换位置
+               if(_this[j] > _this[j+1]){
+                swap(_this,j,j+1)
+                flag = true;
+               }
+            }
+            if(!flag) break;
+            flag = false;
+        }
+        return _this;
+    }
+
+    let ary = [12,8,6,96,36];
+    ary.bubble();
+    console.log(ary);
+
+
+    // 2.------------插入排     O(n^2)
+    Array.prototype.insert = function insert() {  
+        let _this = this,
+            handle = [];
+        handle.push(_this[0])
+
+        for(let i=1; i< _this.length; i++){
+            let A = _this[i];
+            for(let j = handle.length-1; j>=0; j--){
+                let B = handle[j]
+
+                // 把A插到j的前面
+                if(A>B){
+                  handle.splice(j + 1, 0 , A);
+                  break;
+                }
+
+                if( j === 0){
+                  handle.unshift(A)
+                }
+
+            }
+        }
+        return handle
+    }
+
+    let ary = [12,8,6,96,36];
+    ary = ary.insert();
+    console.log(ary);
+
+    // 3.快速排序   
+
+    Array.prototype.quick = function quick(){
+        let _this = this;
+        let middleIndex = Math.floor(_this.length / 2),
+            middleValue = _this.splice(middleIndex, 1)[0];
+
+        let arrLeft = [],
+            arrRight = [];
+        for(let i = 0; i < _this.length; i++){
+            let item = _this[i];
+            item < middleValue ? arrLeft.push(item) : arrRight.push(item);
+        }
+
+        return quick.call(arrLeft).concat(middleValue, quick.call(arrRight));
+    };
+
+    let arr = [12,8,6,96];
+    arr = arr.quick();
+    console.log(arr);
+
+
+// 快速排序
+
+
+Array.prototype.quick = function quick(){
+        let _this = this;
+        let middleIndex = Math.floor(_this.length / 2),
+            middleValue = _this.splice(middleIndex, 1)[0];
+
+        let arrLeft = [],
+            arrRight = [];
+        for(let i = 0; i < _this.length; i++){
+            let item = _this[i];
+            item < middleValue ? arrLeft.push(item) : arrRight.push(item);
+        }
+
+        return quick.call(arrLeft).concat(middleValue, quick.call(arrRight));
+    };
+
+    let arr = [12,8,6,96];
+    arr = arr.quick();
+    console.log(arr);
+
+
+
+
+
+
+
+
+
+</script>

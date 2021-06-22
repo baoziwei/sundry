@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .class1{
+        width: 1200px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .class1 div{
+        width: 200px;
+        height: 200px;
+        background: red;
+    }
+    .class1 div:nth-of-type(1){
+        align-self: flex-start;
+        background-color: pink;
+
+    }
+    .class1 div:nth-of-type(2){
+        align-self: center;
+
+        
+    }
+    .class1 div:nth-of-type(3){
+        align-self: flex-end;
+    }
+</style>
+<body>
+    <div class="class1">
+        <div>111</div>
+        <div>222</div>
+        <div>333</div>
+    </div>
+</body>
+</html>
+<script>
+   /*  let obj = {
+        a:100,
+        b:[10,20,30],
+        c:{
+            x:10
+        },
+        d:/^\d+$/
+    } */
+    // 盛客隆：只要新克隆对象和原对象没有任何关系
+    // 实现对象的克隆有哪些办法：（克隆：内存地址不一样）
+    // Object.assign：浅比较：只处理第一级都叫浅客隆，没有开辟新的内存空间，
+    // let newObj = Object.assign({},obj)
+    
+    // {...obj}展开运算符：只处理第一级都叫浅客隆
+    // let newObj = {...obj}
+
+
+
+
+
+
+    // 实现数组的克隆
+    //  slice/concat 这些都是浅客隆
+    // forEach/map/reduce  //也都是遍历第一级
+   /*  let newArr = arr.slice()
+    let newArr = arr.concat([]) */
+
+
+
+    //==========================================================================================================================
+
+    // 数组盛客隆：
+       //1.    JSON.prase(JSON.stringify(arr))  (此时浏览器需要重新开辟所有的内存空间)
+            // 出现的问题：正则会变为空对象/函数直接消失//日期函数转为字符串//sumbol直接消失//BigInt消失//nudefined消失
+       //1.     
+
+
+    /*    function deepClone(obj){
+
+            if(obj == null) return null;
+            if(typeof obj== "object")  return obj;
+            if(/^(RegExp|Date)$/i.test(constructor.name))  return new constructor(obj)
+            let clone = new obj.constructor();
+            // Object.keys(obj).forEach();
+            for(let key in obj){
+                if(!obj.hasOwnProperty(key))  break;
+                clone[key] = deepClone[key];
+            }
+
+            return clone
+       }
+               
+               
+    console.log(deepClone(obj)); */
+
+
+
+/*     var arr = [
+        {name:'zopp',age:0},
+        {name:'gpp',age:18},
+        {name:'yjj',age:18}
+    ];
+
+function compare(age){
+    return function(a,b){
+        var value1 = a[age];
+        var value2 = b[age];
+        return value1 - value2;
+    }
+    console.log(age);
+}
+console.log(arr.sort(compare('age'))) */
+
+
+ var sdts = [
+    {name:"小明",age:12,score:100},
+    {name:"小红",age:18,score:100},
+    {name:"小花",age:11,score:90}
+]
+
+function sortBy(score,age) {
+    return function(a,b) {
+        if(a.score == b.score) return a.age - b.age;
+        return a.score - b.score;
+    }
+}
+console.log(sdts.sort(sortBy("score","age"))); 
+
+console.log( Number(123) instanceof String);
+</script>

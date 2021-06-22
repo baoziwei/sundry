@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    // 类数组：有索引，有length  只不过不是Array的实例
+//转为数组
+    /* 1. ES6剩余运算符   获取的参数几何本身就是数组 */
+  /*   function toArray(...args){
+        return args
+    } */
+
+   /* 2.arguments */
+ /*   function toArray() {  
+    //    return [...arguments]
+      return Array.from(arguments)
+   } */
+
+
+   /* 3. 类数组转为数组=》for循环*/
+/*    function toArray() {  
+       let arr=[];
+       for(let i = 0;i<arguments.length;i++){
+           arr.push(arguments[i])
+       }
+       return arr
+   }    
+    console.log(toArray(6,7,5));
+ */
+
+/* // slice():从索引n开始截取m个数，不包括m  
+   // [].slice():相当于把数组克隆一份 */
+
+
+   /* 4. 类数组转为数组*/
+   Array.prototype.slice = function slice() {  
+       let arr = [];
+       for(let i = 0;i<this.length;i++){
+          arr.push(this[i])
+       }
+       return arr
+   }
+   function toArray(){
+    //    原理：把slice执行，让方法中的this变为arguments,这样就可以实现把类数组转为数组
+    //    前提：操作数组中的代码也需要适配改变this
+
+       return [].slice.call(arguments)
+   }
+   
+   console.log(toArray(6,7,5));
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        background: #2c3e50;
+    }
+ /*   .box{
+       width: 100px;
+       height: 100px;
+       background: #f1c40f;
+       animation-name: bg,wz,radius;
+       animation-duration: 4s,2s,1s;
+   } */
+   .main{
+     width: 100vw;
+     height: 100vh;
+     background: #34495e;
+    transform: scale(0);
+    animation-name: scale, bg, radius;
+    animation-duration: 2s,4s,1s;
+    animation-fill-mode: forwards;  /* 填充模式： 动画完成停止,不让他回到初始状态 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   .main::after{
+       content: '嘻嘻嘻哈哈哈啊';
+       font-size: 2em;
+       color: #fff;
+       opacity: 0;
+       animation-name: opacity;
+       animation-duration: 2s;
+       animation-delay: 4s;
+       animation-fill-mode: forwards;  /* 动画完成停止,不让他回到初始状态 */
+       animation-iteration-count: infinite;  /* 动画执行次数 */
+   }
+    
+    @keyframes opacity {
+        to{
+            opacity: .8;
+        }
+    }
+
+   /* 创建关键帧 扩大2倍*/
+   @keyframes bg {   
+       0% {
+           background: chartreuse;
+       }
+       25% {
+           background: red;
+           /* transform: scale(2); */
+       }
+       100% {
+           background: #f1c40f;
+       }
+   }
+
+   /* 方块移动 */
+   @keyframes scale{   
+       25% {
+           /* transform: translateX(300px); */
+           transform: scale(0.5);
+       }
+       50% {
+           /* transform: translate(300px,300px); */
+           transform: scale(1) rotate(360deg);
+       }
+       75% {
+           /* transform: translateY(300px); */
+           transform: scale(0.5);
+       }
+       to{
+        transform: scale(1);
+
+       }
+   }
+
+   @keyframes  radius{
+       25%{
+           border-radius: 50%;
+       }
+       50%{
+           border-radius: 0%;
+       }
+       75%{
+           border-radius: 50%;
+       }
+       100%{
+           border-radius: 0%;
+       }
+   }
+</style>
+<body>
+    <div class="main">
+        <div class="box"></div>
+    </div>
+    
+</body>
+</html>

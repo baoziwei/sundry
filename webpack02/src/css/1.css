@@ -1,0 +1,10 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+@import "../icon/iconfont.css";
+body,html{
+    height: 100%;
+    background-color: pink;
+    color: #fff;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">点击</button>
+</body>
+</html>
+<script>
+    /* 
+       防抖：用户频繁触发  只识别一次（识别第一次或者只识别最后一次）【点击按钮】（目的是频繁触发只执行一次）
+       节流：目的是缩减频率
+     */
+
+/*     let timeout = null,
+        wait = 500;
+    btn.onClice = function () {
+        clearTimeout(timer)
+        setTimeout(()=>{
+           func(); 
+        },500)  
+    } */
+    /* 
+     * debounce:实现防抖
+     *    @params
+             func:需要执行的函数
+             waitL检测时间
+             immediate:是否立即执行
+          @return
+            可被调用的执行函数(柯理华函数)
+     */
+     let btn = document.getElementById("btn")
+     function debounce(func,wait = 2000, imediate = false) {  
+         let timer = null;
+         return function anonymous(...params) {
+            let now = imediate && !timer;    //!timer:null取反是true
+             clearTimeout(timer); 
+             timer = setTimeout(()=>{    //500毫秒内没有进来
+                timer = null; 
+                !imediate ? func.call(this, ...params) : null;   //如果imediate不为true，就不是立即执行的
+             },wait)
+             now ? func.call(this, ...params) : null
+         }
+     }
+
+    
+    /* throttle:节流
+     *  @return
+        可被调用的执行函数(柯理华函数)
+     
+     */
+
+    function throttle(func,wait=500){
+        let timer = null,
+            previous = 0;  //上次执行的时间点
+        
+        return function anonymouse(...params){
+            let now = new Date(),
+                shengxia = wait - (now - previous)
+            if(shengxia<=0){
+                clearTimeout(timer)
+                timer = 0;
+                previous = now;
+                func.call(this,...params)
+            }else{
+                timer = setTimeout(() => {
+                    clearTimeout(timer)
+                    timer = null;
+                    previous = new Date();
+                    func.call(this,...params)
+                }, shengxia);
+            }
+
+        }
+
+    }
+    
+    function func() {  
+        console.log("999");
+    }
+    btn.onclick = throttle(func)
+
+
+
+    // cd  节流
+    function fn(){
+        console.log(6666);
+    }
+    var cd = false;
+    button.onclick = function(){
+        if(!cd){
+            fn();
+            cd = true;
+            var timerId = setTimeout(()=>{
+                cd = false;
+            },3000)
+        }
+    }
+    // 防抖
+    var timerId = null;
+    button.onclick = function(){
+        if(timerId){/*  */
+            window.clearTimeout(timerId)
+        }
+        timerId = setTimeout(()=>{
+            fn();
+            timerId = null;
+        },5000)
+    }
+</script>

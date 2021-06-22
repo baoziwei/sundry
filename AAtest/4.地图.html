@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #map{
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #333;
+    }
+</style>
+<body>
+    <div id="map"></div>
+</body>
+</html>
+<script src="../node_modules1/echarts/dist/echarts.js"></script>
+<script src="../node_modules1/echarts/map/js/china.js"></script>
+<script>
+    let charts = echarts.init(document.getElementById('map'));
+    var option = {
+        title :{
+            text:'学习学习',
+            link:'http://baidu.com',
+            subtext:"哈哈哈",
+            sublink:"www.zhufnegpeixin.cn",
+            left:'center',
+            textStyle: {
+                color:'red',
+                fontSize:30,
+            },
+            subtextStyle: {
+                fontSize:25
+            }
+        },
+        series:{
+            name:'确诊人数',
+            type:'map',
+            map:'china',
+            label:{
+                show: true,
+                color: 'red',
+                fontSize:10,
+                // offset:[30,40]
+            },
+            itemStyle:{
+                areaColor: "#fff",
+                borderColor:'pink',
+
+            },
+            zoom:1.1,
+            roam:true,
+            emphasis: {
+                label:{
+                    color:'#fff',
+                    fontSize:12
+                },
+                itemStyle:{
+                    areaColor:'blue',
+                    barderColor:'#999',
+                }
+            },
+        },
+        visualMap:[
+            {
+                type:'piecewise',
+                show:true,
+                pieces: [
+                    {min: 10000}, // 不指定 max，表示 max 为无限大（Infinity）。
+                    {min: 1000, max: 9999},
+                    {min: 100, max: 999},
+                    {min: 10, max: 99},
+                    {min: 1, max: 9, label: '10 到 200（自定义label）'},
+                    // {value: 123, label: '123（自定义特殊颜色）', color: 'grey'}, // 表示 value 等于 123 的情况。
+                    {max: 0}     // 不指定 min，表示 min 为无限大（-Infinity）。
+                ],
+                inRange:{
+                    color: ['#fff','red'],
+
+                },
+                align:"left",
+                textStyle:{
+                    color:'#fff',
+                },
+                itemWidth:20,
+                itemHeight:10,
+            }
+        ],
+        tooltip:{
+            trigger:'item',
+        },
+        toolbox:{
+            show:true,
+            feature:{
+                saveAsImage:{
+                    
+                }
+            }
+        }
+   
+    }
+    
+
+
+
+
+    charts.setOption(option)
+</script>

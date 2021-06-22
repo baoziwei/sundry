@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas{
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <canvas id='canvas' width='600' height='600'>你的浏览版本不行 请升级</canvas>
+</body>
+</html>
+<script>
+  /* 
+    canvas  就是一块 画布
+  
+  */
+  let canvas = document.querySelector('#canvas');
+  // 创造一个绘画环境
+  let ctx = canvas.getContext('2d');
+
+ /*  
+  ctx.fillStyle = 'blue';// 设置填充颜色
+  ctx.fillRect(0,0,200,200);//x y 设置绘制矩形 的起始位置; w  h 控制的宽和高 */
+
+
+  /* ctx.strokeStyle = 'blue';// 设置路线的颜色
+  ctx.strokeRect(10,10,200,200);//绘制矩形（无填充） */
+
+  /* ctx.rect(50,50,100,100);// 创建了一个矩形
+  ctx.strokeStyle = 'blue';
+  ctx.stroke();// 把矩形画到 画布上； */
+
+
+  /* ctx.rect(50,50,100,100);// 创建了一个矩形
+  ctx.fillStyle = 'blue';
+  ctx.fill();// 把矩形画到 画布上； */
+
+  ctx.beginPath();
+  ctx.moveTo(10,20);
+  ctx.lineTo(100,100);
+  ctx.strokeStyle = 'blue';
+  ctx.lineWidth = 20;
+  ctx.stroke();
+
+  ctx.beginPath();// 设置新路径
+  ctx.moveTo(200,50);// 把画笔移动到那个位置
+  ctx.lineTo(150,150);// 设置 画线到从起始位置 到这个设置的位置
+  ctx.lineWidth = 10;// 设置线的宽度
+  ctx.strokeStyle = 'red';// 设置线的颜色；
+  ctx.stroke();
+
+  /* ctx.beginPath();
+  // ctx.lineWidth = 2;
+  ctx.moveTo(300,150);
+  ctx.lineTo(400,150);
+  // ctx.lineTo(400,250);
+  ctx.lineTo(300,250);
+  // ctx.lineTo(300,150);
+  // ctx.closePath();
+  ctx.fillStyle = 'green';
+  // ctx.stroke();
+  ctx.fill(); */
+
+
+  // ctx.beginPath();
+  // ctx.strokeStyle = 'blue';
+  // ctx.lineWidth = 1;
+  // ctx.arc(300,100,100,Math.PI * 0.5,Math.PI*2,true);// x y 圆心坐标 r 半径 s 起始角度 e 结束角度  true逆时针
+  // ctx.stroke();
+
+
+  ctx.beginPath();
+  ctx.translate(300,300);// 0 0 是默认值； 也就是 以左上角为基准的绘图 起始就是设置中心点
+  ctx.moveTo(50,100);
+  ctx.lineTo(200,100);
+  ctx.arcTo(250,100,250,150,50);
+  ctx.lineTo(250,300);
+  ctx.stroke();
+  // ctx.beginPath();
+  // ctx.moveTo(20,20);           // 创建开始点
+  // ctx.lineTo(100,20);          // 创建水平线
+  // ctx.arcTo(150,20,150,70,50); // 创x1,y1,起始坐标 x2,y2,结束坐标 r半径)
+  // ctx.lineTo(150,120);         // 创建垂直线
+  // ctx.stroke(); 
+
+
+
+
+
+</script>

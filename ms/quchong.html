@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    /*     var arr = [1, 2, 3, [4, 5],
+        [6, [7, [8]]]
+    ]
+
+    function wrap() {
+        var ret = [];
+        return function flat(a) {
+            for (var item of a) {
+                if (item.constructor === Array) {
+                    ret.concat(flat(item))
+                    console.log(11, flat(item));
+                } else {
+                    ret.push(item)
+                }
+            }
+            return ret
+        }
+    } */
+    // console.log(wrap()(arr));
+
+    /*     var a = {
+            i: 1,
+            toString() {
+                return a.i++;
+            }
+        }
+        if (a == 1 && a == 2 && a == 3) {
+            console.log(1);
+        }
+        let a = [1, 2, 3];
+        a.toString = a.shift;
+        if (a == 1 && a == 2 && a == 3) {
+            console.log(1);
+        }
+        var a = 10;
+        (function () {
+            console.log(a) 
+            a = 5 
+            console.log(window.a) 
+            var a = 20;
+            console.log(a)
+        })()
+
+        const sleep1 = time=>{
+            return new Promise(resolve=>{
+                setTimeout(()=>{
+                  resolve()
+                },time)
+            })
+        }
+        sleep1(1000).then(()=>{
+            console.log(1);
+        }) */
+
+    /*     var arr = [3, 15, 8, 29, 102, 22];
+        arr.sort((a,b)=>{
+            return b - a
+        })
+        console.log(arr); */
+    /*     var obj = {
+            '2': 3,
+            '3': 4,
+            'length': 2,
+            'splice': Array.prototype.splice,
+            'push': Array.prototype.push
+        }
+        obj.push(1) 
+        obj.push(2) 
+        console.log(obj) */
+    Number.prototype.add = function (n) {
+        return this.valueOf() + n;
+    };
+    Number.prototype.minus = function (n) {
+        return this.valueOf() - n;
+    };
+    // console.log((5).add(3).minus(2));
+    var a = {
+        n: 1
+    };
+    var b = a;
+    a.x = a = {
+        n: 2
+    };
+    /*  console.log(a.x)
+     console.log(b.x)
+     console.log(a);
+     console.log(b); */
+    let obj = {
+        1: 222,
+        2: 123,
+        5: 888
+    };
+    const result = Array.from({
+        length: 12
+    }).map((_, index) => obj[index + 1] || null);
+    // console.log(result)
+    class LazyManClass {
+        constructor(name) {
+            this.name = name
+            this.queue = []
+            console.log(`Hi I am ${name}`)
+            setTimeout(() => {
+                this.next()
+            }, 0)
+        }
+        sleepFirst(time) {
+            const fn = () => {
+                setTimeout(() => {
+                    console.log(`等待了${time}秒...`)
+                    this.next()
+                }, time)
+            }
+            this.queue.unshift(fn)
+            return this
+        }
+        sleep(time) {
+            const fn = () => {
+                setTimeout(() => {
+                    console.log(`等待了${time}秒...`)
+                    this.next()
+                }, time)
+            }
+            this.queue.push(fn)
+            return this
+        }
+        eat(food) {
+            const fn = () => {
+                console.log(`I am eating ${food}`)
+                this.next()
+            }
+            this.queue.push(fn)
+            return this
+        }
+        next() {
+            const fn = this.queue.shift()
+            fn && fn()
+        }
+    }
+
+    function LazyMan(name) {
+        return new LazyManClass(name)
+    }
+
+    function newFunc(father, ...params) {
+        let result = {};
+        result.__proto__ = father.prototype;
+        let result2 = father.call(result, ...params);
+        if (result2 === 'object' || result2 === 'function') {
+            return result2
+        } else {
+            return result
+        }
+    }
+
+    var nums1 = [1, 2, 2, 1],
+        nums2 = [2, 2, 3, 4];
+    var newArr2 = nums1.filter(item => {
+        return nums2.includes(item)
+    })
+    // console.log(newArr2);
+
+    // 没有prototype属性而new的时候需要将构造函数的prototype赋值给新的对象的_proto_
+    var a = {},
+        b = '123',
+        c = 123;
+    a[b] = 'b';
+    a[c] = 'c';
+    // console.log(a[b]);
+    let list = [
+        { id: 1, name: '部门A', parentId: 0 },
+        { id: 2, name: '部门B', parentId: 0 },
+        { id: 3, name: '部门C', parentId: 1 },
+        { id: 4, name: '部门D', parentId: 1 },
+        { id: 5, name: '部门E', parentId: 2 },
+        { id: 6, name: '部门F', parentId: 3 },
+        { id: 7, name: '部门G', parentId: 2 },
+        { id: 8, name: '部门H', parentId: 4 }
+    ];
+
+    function convert(array) {
+    let reslutArray = array.filter((item) => {
+        let children = array.filter((child) => {
+           return item.id === child.parentId
+        })   
+        item.children = children       
+        return item.parentId === 0
+    })
+        return reslutArray
+    }
+
+    const result11 = convert(list);
+    console.log(result11);
+
+</script>

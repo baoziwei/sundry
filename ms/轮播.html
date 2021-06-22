@@ -1,0 +1,211 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .app {
+        width: 100%;
+        margin: 50px 0;
+        text-align: center;
+    }
+
+    .app .scroll {
+        position: relative;
+        display: inline-block;
+        width: 1226px;
+        height: 460px;
+    }
+
+    .app .scroll .img {
+        display: none;
+        width: 100%;
+    }
+
+    .app .scroll .current {
+        display: block;
+    }
+
+    .scroll .lf {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        background-image: url('./img/arrow.jpg');
+        background-position: -83px 0;
+        width: 41px;
+        height: 69px;
+        cursor: pointer;
+        transform: translateY(-50%);
+    }
+
+    .scroll .lr {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        background-image: url('./img/arrow.jpg');
+        background-position: -123px 0;
+        width: 41px;
+        height: 69px;
+        cursor: pointer;
+        transform: translateY(-50%);
+    }
+
+    .dots {
+        position: absolute;
+        bottom: 15px;
+        right: 20px;
+        width: 160px;
+    }
+
+    .dots>span {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 11px;
+        height: 11px;
+        border: 3px solid rgba(204, 204, 204, 0.2);
+        border-radius: 15px;
+        cursor: pointer;
+    }
+
+    .dots>span:not(:last-child) {
+        margin-right: 5px;
+    }
+
+    /* 小圆点的颜色 */
+    .dots .square {
+        background: #f46;
+    }
+</style>
+
+<body>
+
+    <div class="app">
+        <div class="scroll">
+            <!-- 图片展示 -->
+            <img src="./img/s1 (1).jpg" alt="scrollImage" class="img current">
+            <img src="./img/s1 (2).jpg" alt="scrollImage" class="img">
+            <img src="./img/s1 (3).jpg" alt="scrollImage" class="img">
+            <img src="./img/s1 (4).jpg" alt="scrollImage" class="img">
+            <img src="./img/s1 (5).jpg" alt="scrollImage" class="img">
+
+            <!-- 左右箭头的展示 -->
+            <div class="lf"></div>
+            <div class="lr"></div>
+
+            <!-- 小圆点展示 -->
+            <div class="dots">
+                <span class="square"></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    window.addEventListener('load', function () {
+
+        var leftArrow = this.document.querySelector('.lf');
+        var rightArrow = this.document.querySelector('.lr');
+
+        // 鼠标移动到左右箭头的位置更换图片 有灰色背景的图片
+        leftArrow.addEventListener('mouseenter', function () {
+            this.style.backgroundPosition = '0 0';
+        });
+
+        leftArrow.addEventListener('mouseleave', function () {
+            this.style.backgroundPosition = '-83px 0';
+        });
+
+        rightArrow.addEventListener('mouseenter', function () {
+            this.style.backgroundPosition = '-42px 0';
+        });
+
+        rightArrow.addEventListener('mouseleave', function () {
+            this.style.backgroundPosition = '-123px 0';
+        });
+
+        // 获取图片 和 小点
+        var imgs = this.document.querySelectorAll('.img');
+        var dots = this.document.querySelector('.dots').querySelectorAll('span');
+
+        // 给图片设置index 属性，好判断当前的图片是哪一张
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].setAttribute('data-index', i);
+        }
+
+        // 获取当前图片 和 图片的index（数组下标）
+        var current = this.document.querySelector('.current');
+        var currentIndex = current.getAttribute('data-index');
+
+        // 左箭头的点击事件，点击了就返回前一张图片 
+        // 如果当前图片为第一张那么需要更换到最后一张图片也就是第四张
+        leftArrow.addEventListener('click', function () {
+            if (currentIndex > 0) {
+                imgs[currentIndex].classList.remove('current');
+                dots[currentIndex].classList.remove('square');
+                imgs[--currentIndex].classList.add('current');
+                dots[currentIndex].classList.add('square');
+            } else {
+                imgs[currentIndex].classList.remove('current');
+                dots[currentIndex].classList.remove('square');
+                currentIndex = 4;
+                imgs[currentIndex].classList.add('current');
+                dots[currentIndex].classList.add('square');
+            }
+        });
+
+        // 点击右箭头下一张图片切换
+        // 如果当前为第五张图片，那么切换回第一张图片
+        rightArrow.addEventListener('click', changeImage);
+
+        var timer = this.setInterval(changeImage, 8000);
+
+        function changeImage() {
+            if (currentIndex < 4) {
+                imgs[currentIndex].classList.remove('current');
+                dots[currentIndex].classList.remove('square');
+                imgs[++currentIndex].classList.add('current');
+                dots[currentIndex].classList.add('square');
+            } else {
+                imgs[currentIndex].classList.remove('current');
+                dots[currentIndex].classList.remove('square');
+                currentIndex = 0;
+                imgs[currentIndex].classList.add('current');
+                dots[currentIndex].classList.add('square');
+            }
+        };
+
+        // 小圆点的点击事件
+        for (let k = 0; k < dots.length; k++) {
+            dots[k].setAttribute('data-index', k);
+            dots[k].addEventListener('click', function () {
+                var index = this.getAttribute('data-index');
+                if (index != currentIndex) {
+                    imgs[currentIndex].classList.remove('current');
+                    dots[currentIndex].classList.remove('square');
+                    imgs[index].classList.add('current');
+                    dots[index].classList.add('square');
+                    currentIndex = index;
+                }
+
+            })
+        }
+
+    });
+</script>

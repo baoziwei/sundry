@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button index = '0'>我是第1个按钮</button>
+    <button index = '1'>我是第2个按钮</button>
+    <button index = '2'>我是第3个按钮</button>
+</body>
+</html>
+<script>
+    var buttons = document.querySelectorAll('button')
+    for(let i =0;i<buttons.length;i++){
+        /* (function (i) {    //利用闭包实现，每一轮循环都产生一个闭包，存储一个索引，让其上级上下文是闭包，则这样遇到的i就可以找闭包中的i
+            buttons[i].onclick = function () { 
+                console.log(i);
+             }
+         })(i) */
+      /*    buttons[i].onclick = (function (i) {  
+             return function () {
+                console.log(i);
+               }
+         })(i) */
+         /* buttons[i].onclick = function (){
+             buttons[i].myindex = i    //利用自定义属性，循环多少次创建多少个小函数的堆内存
+             console.log(this.myindex);
+         } */
+
+
+        
+    }
+
+        //  事件委托
+document.body.onclick = function (ev) { 
+   var target = ev.target,   //获取事件源
+        targetTag = target.tagName;
+    if(targetTag == 'BUTTON'){
+        var index = target.getAttribute('index')
+        console.log(index);
+
+    }
+ }
+
+/* 
+ *  * let/const
+ *   let 声明一个变量，变量存储可以改值
+ *   const 声明的变量，一旦赋值，则不能再和其他的值关联（你允许指针重新指向）
+ */
+
+const onj = {name:'珠峰'}
+onj.name = '123'
+console.log(onj);    //只要不重新指向是可以改值得
+
+// var存在变量提升，而let不存在
+
+
+/* let VS  code */
+/* 1.变量提升：在当前上下文执行之前，会把所有带var/function关键字的进行提前的声明定义
+       +带var会提升声明
+       带function会提前声明加定义
+
+   2.和GO的关系："全局山西该文中"  var声明的变量会在GO（也就是全局对象window）新增一个属性，并且任何一个发生制的改变，另一个也会变化，具有映射机机制；
+       但是let和GO没有任何关系 
+    
+   3.在相同上下文中，let不允许重复什么，而var很松散，
+   
+   4.暂时性死区：浏览器的bug  基于typeof检测一个未被声明的变量，不会报错，结果是undefined
+       console.log( n)  // Uncaught ReferenceError: n is not defined
+       console.log(typeof n) =>  //基于typeof检测一个未被声明的变量，不会报错，结果是undefined
+
+   5.let/const/function 会产生块级私有上下文，  而var不会
+       
+    
+
+   
+
+       */
+
+/* 
+*  上下文 & 作用域
+*      + 全局上下文
+*      + 函数形成的私有‘上下文’
+*      + 块级作用域（块级私有上下文）
+           + 除了  对象/函数  的大括号外（例如：判断题、循环体  switch/if/for/while）
+*
+*/
+
+// debugger
+{
+    var n = 12
+    console.log(n);
+
+    let m = 13
+    console.log(m);
+}
+console.log(n);
+console.log(m);
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

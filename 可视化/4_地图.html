@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+</body>
+
+</html>
+<script src="./node_modules/echarts/dist/echarts.js"></script>
+<script src="./node_modules/echarts/map/js/china.js"></script>
+<script src="./node_modules/jsonp/index.js"></script>
+<script>
+  const PIN = {"中国":"china","北京":"beijing","湖北":"hubei","广东":"guangdong","浙江":"zhejiang","河南":"henan","湖南":"hunan","重庆":"chongqing","安徽":"anhui","四川":"sichuan","山东":"shandong","吉林":"jilin","福建":"fujian","江西":"jiangxi","江苏":"jiangsu","上海":"shanghai","广西":"guangxi","海南":"hainan","陕西":"shanxis","河北":"hebei","黑龙江":"heilongjiang","辽宁":"liaoning","云南":"yunnan","天津":"tianjin","山西":"shanxi","甘肃":"gansu","内蒙古":"neimenggu","台湾":"taiwan","澳门":"aomen","香港":"xianggang","贵州":"guizhou","西藏":"xizang","青海":"qinghai","新疆":"xinjiang","宁夏":"ningxia"}
+  let map = document.getElementById('map');
+  let charts = echarts.init(map);
+  var option = {
+    title: {
+      text: '珠峰培训',
+      link: 'http://zhufengpeixun.com',
+      subtext: "十一年专注",
+      sublink: 'http://zhufengpeixun.com',
+      left: 'center',
+      textStyle: {
+        color: 'red',
+        fontSize: 30
+      }
+    },
+    series: [{
+      name: '确诊人数',
+      type: 'map',
+      map: 'china',
+      label: {
+        show: true,
+        color: 'red',
+        fontSize: 10,
+        // offset:[10,100]
+      },
+      itemStyle: {
+        areaColor: '#eee',
+        borderColor: 'blue'
+      },
+      zoom: 1.5,
+      roam: true,
+      data:[],
+      emphasis: {
+        // 高亮属性
+        label: {
+          // 字体
+          color: "#fff",
+          fontSize: 12
+        },
+        itemStyle: {
+          areaColor: 'red',
+          borderColor: '#fff'
+        }
+      }
+    }],
+    visualMap: [{
+      type: 'piecewise',
+      show: true,
+      pieces: [
+        {
+          min:10000
+        },
+        {
+          max:9999,
+          min:1000
+        },
+        {
+          max:999,
+          min:100
+        },
+        {
+          max:99,
+          min:10
+        },
+        {
+          max:9,
+          min:1
+        },
+        {
+          max:0
+        }
+      ],
+      inRange:{
+        color:['#fff','red']
+      },
+      align:'left',
+      textStyle:{
+        color:'#fff'
+      },
+      itemWidth:20,
+      itemHeight:10
+    }],
+    tooltip:{
+      trigger:'item'
+    },
+    toolbox:{
+      show:true,
+      feature:{
+        saveAsImage:{
+          type:'jpeg',
+          name:"hahaha"
+        }
+      }
+    }
+  }
+  charts.setOption(option);
+
+  function getData(){
+    jsonp('https://interface.sina.cn/news/wap/fymap2020_data.d.json?_=1580892522427',(err,data)=>{
+      if(!err){
+        // console.log(data)
+        let ary = [];
+        ary = data.data.list.map(item=>{
+          return {
+            name:item.name || '',
+            value:item.value*1 || 0
+          }
+        })
+        // console.log(ary)
+        option.series[0].data = ary;
+        charts.setOption(option);
+      }
+    })
+  }
+  // getData();
+  function get(name){
+    name = PIN[name];
+    return new Promise((res,rej)=>{
+      let xhr = new XMLHttpRequest();
+      xhr.open('get','./json/province/'+name+'.json')
+      xhr.onreadystatechange = function(){
+        if(xhr.status==200&&xhr.readyState==4){
+            res(JSON.parse(xhr.response))
+        }
+      }
+      xhr.send()
+    })
+  }
+  charts.on('click',function(obj){
+    console.log(arguments)
+    if(!PIN[obj.name]){
+      alert('没有了')
+      return;
+    }
+    get(obj.name).then(data=>{
+      console.log(data)
+      
+      echarts.registerMap(PIN[obj.name],data);
+      option.series[0].map = PIN[obj.name];
+      charts.setOption(option);
+    })
+  });
+</script>
